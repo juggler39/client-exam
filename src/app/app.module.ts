@@ -23,13 +23,22 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { mockBackendProvider } from './helpers/mockbackend';
+import { ConfirmDialogComponent } from '@components/confirm-dialog/confirm-dialog.component';
+import { DeleteAnimalComponent } from '@components/delete-animal/delete-animal.component';
+import { ListComponent } from './components/list/list.component';
+import { EditAnimalComponent } from './components/edit-animal/edit-animal.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    TableComponent
+    TableComponent,
+    DeleteAnimalComponent,
+    ConfirmDialogComponent,
+    ListComponent,
+    EditAnimalComponent
   ],
   imports: [
     BrowserAnimationsModule,

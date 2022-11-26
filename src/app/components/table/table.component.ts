@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, SortDirection } from '@angular/material/sort';
 import { IAnimal } from "src/app/model/animal.interface";
@@ -16,6 +16,7 @@ import { map, Observable } from "rxjs";
 export class TableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @Output() onEdit = new EventEmitter<IAnimal>();
 
   amimals$: Observable<IAnimal[]>
   showLoading = false;
@@ -54,6 +55,8 @@ export class TableComponent implements OnInit, AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
-
+  sortData(data: MatTableDataSource<IAnimal>) {
+    data.sort = this.sort;
+  }
 
 }

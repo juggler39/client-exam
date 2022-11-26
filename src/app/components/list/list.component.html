@@ -1,0 +1,12 @@
+<mat-card>
+  <div class="flex justify-between items-center flex-wrap mb-4">
+    <mat-card-title color="secondary">List of animals</mat-card-title>
+
+    <button mat-raised-button
+            color="primary"
+            (click)="addAnimal()">Add Animal
+    </button>
+  </div>
+
+  <app-table (onEdit)="onEdit($event)"></app-table>
+</mat-card>
