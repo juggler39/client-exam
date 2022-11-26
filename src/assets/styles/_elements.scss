@@ -1,0 +1,9 @@
+@import 'variables';
+
+.snackbar {
+  background: $warn;
+  .mat-button-wrapper {
+    color: white;
+    opacity: 0.7;
+  }
+}
