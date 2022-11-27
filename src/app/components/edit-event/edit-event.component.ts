@@ -20,54 +20,25 @@ export class EditEventComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.eventForm = new FormGroup({});
 
-    this.initForm();
+    this.fields.forEach((field) => {
+      this.eventForm.addControl(field, new FormControl(''))
+    })
+
+    if (this.data.event) {
+      Object.entries(this.data.event).forEach(([key, value]) => {
+        this.eventForm.get(key)?.setValue(value);
+      })
+    }
+    this.eventForm.controls['eventId'].disable();
   }
 
-  onSave() {
+  onSave(): void {
     const event: any = {};
-    Object.keys(this.eventForm.controls).forEach((x) => {
-      event[x] = this.eventForm.controls[x].value;
+    Object.keys(this.eventForm.controls).forEach((control) => {
+      event[control] = this.eventForm.controls[control].value;
     });
     this.dialogRef.close(event);
-  }
-
-  initForm() {
-    this.eventForm = new FormGroup({
-      'eventId': new FormControl({ value: this.data.event?.eventId ?? null, disabled: true }),
-      'type': new FormControl(this.data.event?.type ?? null),
-      'cowId': new FormControl(this.data.event?.cowId ?? null),
-      'animalId': new FormControl(this.data.event?.animalId ?? null),
-      'deletable': new FormControl(this.data.event?.deletable ?? null),
-      'lactationNumber': new FormControl(this.data.event?.lactationNumber ?? null),
-      'daysInLactation': new FormControl(this.data.event?.daysInLactation ?? null),
-      'ageInDays': new FormControl(this.data.event?.ageInDays ?? null),
-      'startDateTime': new FormControl(this.data.event?.startDateTime ?? null),
-      'reportingDateTime': new FormControl(this.data.event?.reportingDateTime ?? null),
-      'healthIndex': new FormControl(this.data.event?.healthIndex ?? null),
-      'endDate': new FormControl(this.data.event?.endDate ?? null),
-      'minValueDateTime': new FormControl(this.data.event?.minValueDateTime ?? null),
-      'alertType': new FormControl(this.data.event?.alertType ?? null),
-      'duration': new FormControl(this.data.event?.duration ?? null),
-      'originalStartDateTime': new FormControl(this.data.event?.originalStartDateTime ?? null),
-      'endDateTime': new FormControl(this.data.event?.endDateTime ?? null),
-      'daysInPregnancy': new FormControl(this.data.event?.daysInPregnancy ?? null),
-      'heatIndexPeak': new FormControl(this.data.event?.heatIndexPeak ?? null),
-      'newGroupId': new FormControl(this.data.event?.newGroupId ?? null),
-      'newGroupName': new FormControl(this.data.event?.newGroupName ?? null),
-      'currentGroupId': new FormControl(this.data.event?.currentGroupId ?? null),
-      'currentGroupName': new FormControl(this.data.event?.currentGroupName ?? null),
-      'destinationGroup': new FormControl(this.data.event?.destinationGroup ?? null),
-      'destinationGroupName': new FormControl(this.data.event?.destinationGroupName ?? null),
-      'calvingEase': new FormControl(this.data.event?.calvingEase ?? null),
-      'oldLactationNumber': new FormControl(this.data.event?.oldLactationNumber ?? null),
-      'newborns': new FormControl(this.data.event?.newborns ?? null),
-      'cowEntryStatus': new FormControl(this.data.event?.cowEntryStatus ?? null),
-      'birthDateCalculated': new FormControl(this.data.event?.birthDateCalculated ?? null),
-      'sire': new FormControl(this.data.event?.sire ?? null),
-      'breedingNumber': new FormControl(this.data.event?.breedingNumber ?? null),
-      'isOutOfBreedingWindow': new FormControl(this.data.event?.isOutOfBreedingWindow ?? null),
-      'interval': new FormControl(this.data.event?.interval ?? null),
-    });
   }
 }

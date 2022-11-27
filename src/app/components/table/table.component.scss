@@ -6,6 +6,7 @@
   overflow: auto;
   margin: auto;
 }
+
 .mat-cell {
   padding-inline: 3px;
   text-align: center;
@@ -23,15 +24,14 @@
   text-align: center;
 }
 
-.mat-column-position,
 .mat-column-position {
   padding-left: 8px;
 }
 
 .mat-mdc-table-sticky-border-elem-right {
-  border-left: 1px solid #e0e0e0;
+  border-left: 2px solid #e0e0e0;
 }
 
 .mat-mdc-table-sticky-border-elem-left {
-  border-right: 1px solid #e0e0e0;
+  border-right: 2px solid #e0e0e0;
 }

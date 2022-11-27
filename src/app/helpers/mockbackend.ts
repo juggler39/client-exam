@@ -6,18 +6,14 @@ import {
   HttpEvent,
   HttpInterceptor,
   HTTP_INTERCEPTORS,
-  HttpClient,
 } from "@angular/common/http";
 import { Observable, of } from "rxjs";
 import { delay } from "rxjs/operators";
-import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 export class MockBackendHttpInterceptor implements HttpInterceptor {
-  // default employes json path
-  private _employeeJsonPath = "assets/data.json";
 
-  constructor(private http: HttpClient) { }
+  private _eventsJsonPath = "assets/data.json";
 
   intercept(
     req: HttpRequest<any>,
@@ -26,33 +22,28 @@ export class MockBackendHttpInterceptor implements HttpInterceptor {
     return this.handleRequests(req, next);
   }
 
-  /**
-   * Handle request's and support with mock data.
-   * @param req
-   * @param next
-   */
   handleRequests(req: HttpRequest<any>, next: HttpHandler): any {
 
     const { url, method } = req;
 
-    if (url.endsWith("/animals") && method === "GET") {
+    if (url.endsWith("/events") && method === "GET") {
       req = req.clone({
-        url: this._employeeJsonPath,
+        url: this._eventsJsonPath,
       });
       return next.handle(req).pipe(delay(500));
     }
 
-    if (url.endsWith("/animals") && method === "POST") {
+    if (url.endsWith("/events") && method === "POST") {
       const { body } = req.clone();
       return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
     }
 
-    if (url.endsWith("/animals") && method === "PATCH") {
+    if (url.endsWith("/events") && method === "PATCH") {
       const { body } = req.clone();
       return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
     }
 
-    if (url.match(/\/animals\/.*/) && method === "DELETE") {
+    if (url.match(/\/events\/.*/) && method === "DELETE") {
 
       const urlValues = url.split("/");
       const empId = urlValues[urlValues.length - 1];
@@ -61,14 +52,10 @@ export class MockBackendHttpInterceptor implements HttpInterceptor {
         delay(500)
       );
     }
-    // if there is not any matches return default request.
     return next.handle(req);
   }
 }
 
-/**
- * Mock backend provider definition for app.module.ts provider.
- */
 export let mockBackendProvider = {
   provide: HTTP_INTERCEPTORS,
   useClass: MockBackendHttpInterceptor,
