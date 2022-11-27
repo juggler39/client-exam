@@ -1,4 +1,4 @@
-import { IAnimal } from "./animal.interface";
+import { IAnimal } from "./animal.model";
 
 export interface AnimalDialog {
   title: string;

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@components/confirm-dialog/confirm-dialog.component';
 
@@ -7,19 +7,18 @@ import { ConfirmDialogComponent } from '@components/confirm-dialog/confirm-dialo
   templateUrl: './delete-animal.component.html',
   styleUrls: ['./delete-animal.component.scss']
 })
-export class DeleteAnimalComponent  {
+export class DeleteAnimalComponent {
 
-  @Input() contactId: string;
+  @Output() result = new EventEmitter<boolean>();
 
-  constructor( public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) { }
 
   onRemove() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, { width: '320px' });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-console.log(result);
-
+        this.result.emit(true);
       }
     });
   }

@@ -32,6 +32,7 @@ export class MockBackendHttpInterceptor implements HttpInterceptor {
    * @param next
    */
   handleRequests(req: HttpRequest<any>, next: HttpHandler): any {
+
     const { url, method } = req;
 
     if (url.endsWith("/animals") && method === "GET") {
@@ -47,22 +48,17 @@ export class MockBackendHttpInterceptor implements HttpInterceptor {
       return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
     }
     if (url.match(/\/animals\/.*/) && method === "DELETE") {
-      const empId = this.getEmployeeId(url);
+
+      const urlValues = url.split("/");
+      const empId =  urlValues[urlValues.length - 1];
+      console.log(empId, 'empId');
+
       return of(new HttpResponse({ status: 200, body: empId })).pipe(
         delay(500)
       );
     }
     // if there is not any matches return default request.
     return next.handle(req);
-  }
-
-  /**
-   * Get Employee unique uuid from url.
-   * @param url
-   */
-  getEmployeeId(url: any) {
-    const urlValues = url.split("/");
-    return urlValues[urlValues.length - 1];
   }
 }
 

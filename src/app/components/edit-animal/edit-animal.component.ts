@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AnimalDialog } from 'src/app/model/animal-dialog.interface';
+import { AnimalDialog } from 'src/app/model/animal-dialog.model';
+
 
 @Component({
   selector: 'app-edit-animal',
@@ -15,8 +16,10 @@ export class EditAnimalComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  onSave() {
-
+  onSave(animal: any) {
+    this.dialogRef.close({
+      animal: animal
+    });
   }
 
 }

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError, retry, shareReplay } from "rxjs";
-import { IAnimal } from "../model/animal.interface";
+import { IAnimal } from "../model/animal.model";
 
 @Injectable({
   providedIn: "root",
@@ -10,17 +10,6 @@ import { IAnimal } from "../model/animal.interface";
 export class ApiService {
   constructor(private http: HttpClient) { };
   ANIMAL_API = 'http://localhost:4200/animals';
-  /**
-   * Get All Employee request.
-   */
-  getAllEmployes(): Observable<any> {
-    return this.http
-      .get<any>(this.ANIMAL_API, { observe: "response" })
-      .pipe(
-        retry(3), // retry a failed request up to 3 times
-        catchError(this.handleError) // then handle the error
-      );
-  }
 
   loadAnimals(): Observable<IAnimal[]> {
     return this.http.get<IAnimal[]>(this.ANIMAL_API, { responseType: 'json' }).pipe(
@@ -36,21 +25,14 @@ export class ApiService {
    */
   addEmployee(employee: any): Observable<any> {
     return this.http
-      .post<any>("http://localhost:4200/animals", employee, {
+      .post<any>(this.ANIMAL_API, employee, {
         observe: "response",
       })
       .pipe(catchError(this.handleError));
   }
 
-  /**
-   * Delete an employee request method.
-   * @param empId employee unique id
-   */
-  deleteEmployee(empId: any) {
-    return this.http
-      .delete<any>("http://localhost:4200/animals/" + empId, {
-        observe: "response",
-      })
+  deleteAnimal(animalId: string): Observable<IAnimal>  {
+    return this.http.delete<IAnimal>(`${this.ANIMAL_API}/${animalId}`)
       .pipe(catchError(this.handleError));
   }
 

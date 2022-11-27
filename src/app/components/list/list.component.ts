@@ -1,51 +1,66 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EditAnimalComponent } from '@components/edit-animal/edit-animal.component';
-import { IAnimal } from 'src/app/model/animal.interface';
+import { ApiService } from '@services/api.service';
+import { Observable } from 'rxjs';
+import { IAnimal } from 'src/app/model/animal.model';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+    animals$: Observable<IAnimal[]>;
 
-  ngOnInit(): void {
-  }
+    constructor(private apiService: ApiService, public dialog: MatDialog) { }
 
-  addAnimal() {
-    const dialogRef = this.dialog.open(EditAnimalComponent,
-      {
-        data: {
-          title: 'Add a new animal',
-        },
-        width: '480px',
-      });
-    dialogRef.afterClosed().subscribe((animal: IAnimal) => {
-      if (animal) {
-        console.log('asdf');
+    ngOnInit(): void {
+        this.loadAllAnimals();
+    }
 
-      }
-    });
-  }
+    loadAllAnimals() {
+        this.animals$ = this.apiService.loadAnimals();
+    }
 
-  onEdit(animal: IAnimal) {
+    addAnimal() {
+        const dialogRef = this.dialog.open(EditAnimalComponent,
+            {
+                data: {
+                    title: 'Add a new animal',
 
-    const dialogRef = this.dialog.open(EditAnimalComponent,
-      {
-        data: {
-          title: 'Edit this animal',
-          animal: animal.animalId
-        },
-        width: '480px',
-      });
+                },
+                width: '480px',
+            });
+        dialogRef.afterClosed().subscribe((animal: IAnimal) => {
+            if (animal) {
+                console.log(animal);
+            }
+        });
+    }
 
-    dialogRef.afterClosed().subscribe((animal: IAnimal) => {
-      console.log(animal);
+    editAnimal(animal: IAnimal) {
+        const dialogRef = this.dialog.open(EditAnimalComponent,
+            {
+                data: {
+                    title: 'Edit this animal',
+                    animal: animal.animalId
+                },
+                width: '480px',
+            });
 
-    });
-  }
+        dialogRef.afterClosed().subscribe((animal: IAnimal) => {
+            console.log(animal);
+
+        });
+    }
+
+    removeAnimal(animalId: string) {
+
+        console.log(animalId);
+
+
+    }
 
 }

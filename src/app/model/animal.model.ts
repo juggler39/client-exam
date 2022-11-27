@@ -1,4 +1,4 @@
-import { IType } from "./type.interface";
+import { IType } from "./type.model";
 
 export interface IAnimal {
   healthIndex: number;

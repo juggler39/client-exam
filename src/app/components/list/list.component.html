@@ -8,5 +8,8 @@
     </button>
   </div>
 
-  <app-table (onEdit)="onEdit($event)"></app-table>
+  <app-table [animals$]="animals$"
+             (onEdit)="editAnimal($event)"
+             (onRemove)="removeAnimal($event)"
+             ></app-table>
 </mat-card>

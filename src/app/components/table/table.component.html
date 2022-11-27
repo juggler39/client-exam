@@ -21,7 +21,7 @@
           <button mat-button (click)="onEdit.emit(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <app-delete-animal [contactId]="element.animalId"></app-delete-animal>
+          <app-delete-animal (result)="onRemove.emit(element.animalId)"></app-delete-animal>
         </div>
       </td>
     </ng-container>

@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from "@angular/core";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort, SortDirection } from '@angular/material/sort';
-import { IAnimal } from "src/app/model/animal.interface";
+import { IAnimal } from "src/app/model/animal.model";
 import { ApiService } from "src/app/services/api.service";
 import { MatTableDataSource } from '@angular/material/table';
 import { map, Observable } from "rxjs";
@@ -16,9 +16,10 @@ import { map, Observable } from "rxjs";
 export class TableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+  @Input() animals$: Observable<IAnimal[]>;
   @Output() onEdit = new EventEmitter<IAnimal>();
+  @Output() onRemove = new EventEmitter<string>();
 
-  amimals$: Observable<IAnimal[]>
   showLoading = false;
   dataSource = new MatTableDataSource<IAnimal>();
   dataSource$: Observable<any>;
@@ -26,10 +27,8 @@ export class TableComponent implements OnInit, AfterViewInit {
 
   ID = 'animalId';
 
-  constructor(private apiService: ApiService) { }
   ngOnInit(): void {
-    this.amimals$ = this.apiService.loadAnimals();
-    this.dataSource$ = this.amimals$
+    this.dataSource$ = this.animals$
       .pipe(
         map(animals => {
           const dataSource = this.dataSource;
@@ -37,7 +36,7 @@ export class TableComponent implements OnInit, AfterViewInit {
           return dataSource;
         }));
 
-    this.columns$ = this.amimals$.pipe(
+    this.columns$ = this.animals$.pipe(
       map((animals) => {
         const columnSet: Set<string> = new Set();
         animals.forEach((animal) => {
