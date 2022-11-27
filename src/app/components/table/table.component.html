@@ -22,7 +22,7 @@
           <button mat-button (click)="onEdit.emit(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <app-delete-animal (result)="onRemove.emit(element.eventId)"></app-delete-animal>
+          <app-delete-event (result)="onRemove.emit(element.eventId)"></app-delete-event>
         </div>
       </td>
     </ng-container>
@@ -35,5 +35,7 @@
 <br>
 <mat-paginator
                [pageSize]=10
-               [pageSizeOptions]="[5, 10, 25, 100]"
-               aria-label="Select page of contacts"></mat-paginator>
+               [pageSizeOptions]="[10, 25, 100]"
+               aria-label="Select page of events"
+               (page)="paginatorClick()"
+               ></mat-paginator>

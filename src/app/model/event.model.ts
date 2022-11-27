@@ -1,6 +1,4 @@
-import { IType } from "./type.model";
-
-export interface IAnimal {
+export interface IEvent {
   healthIndex: string;
   endDate: string;
   minValueDateTime: string;

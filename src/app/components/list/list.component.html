@@ -1,6 +1,6 @@
 <mat-card>
   <div class="flex justify-between items-center flex-wrap mb-4">
-    <mat-spinner *ngIf="!animals" class="spinner"></mat-spinner>
+    <mat-spinner *ngIf="isLoading" class="spinner"></mat-spinner>
     <mat-card-title>List of events</mat-card-title>
 
     <button mat-raised-button
@@ -9,8 +9,8 @@
     </button>
   </div>
 
-  <app-table *ngIf="animals"
-             [animals]="animals"
-             (onEdit)="editAnimal($event)"
-             (onRemove)="removeAnimal($event)"></app-table>
+  <app-table *ngIf="events"
+             [events]="events"
+             (onEdit)="editEvent($event)"
+             (onRemove)="removeEvent($event)"></app-table>
 </mat-card>

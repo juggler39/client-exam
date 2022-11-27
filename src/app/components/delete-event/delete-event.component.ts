@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-delete-animal',
-  templateUrl: './delete-animal.component.html',
-  styleUrls: ['./delete-animal.component.scss']
+  selector: 'app-delete-event',
+  templateUrl: './delete-event.component.html',
+  styleUrls: ['./delete-event.component.scss']
 })
-export class DeleteAnimalComponent {
+export class DeleteEventComponent {
 
   @Output() result = new EventEmitter<boolean>();
 

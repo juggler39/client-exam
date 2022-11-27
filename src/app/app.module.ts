@@ -3,11 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { TableComponent } from './components/table/table.component';
+import { HeaderComponent } from '@components/header/header.component';
+import { FooterComponent } from '@components/footer/footer.component';
+import { TableComponent } from '@components/table/table.component';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -24,9 +24,9 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { mockBackendProvider } from './helpers/mockbackend';
 import { ConfirmDialogComponent } from '@components/confirm-dialog/confirm-dialog.component';
-import { DeleteAnimalComponent } from '@components/delete-animal/delete-animal.component';
-import { ListComponent } from './components/list/list.component';
-import { EditAnimalComponent } from './components/edit-animal/edit-animal.component';
+import { DeleteEventComponent } from '@components/delete-event/delete-event.component';
+import { ListComponent } from '@components/list/list.component';
+import { EditEventComponent } from '@components/edit-event/edit-event.component';
 
 
 @NgModule({
@@ -35,10 +35,10 @@ import { EditAnimalComponent } from './components/edit-animal/edit-animal.compon
     HeaderComponent,
     FooterComponent,
     TableComponent,
-    DeleteAnimalComponent,
+    DeleteEventComponent,
     ConfirmDialogComponent,
     ListComponent,
-    EditAnimalComponent
+    EditEventComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -46,7 +46,6 @@ import { EditAnimalComponent } from './components/edit-animal/edit-animal.compon
     CommonModule,
     DragDropModule,
     HttpClientModule,
-    FormsModule,
     ReactiveFormsModule,
     MatButtonModule,
     MatCardModule,

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EditAnimalComponent } from '@components/edit-animal/edit-animal.component';
+import { EditEventComponent } from '@components/edit-event/edit-event.component';
 import { ApiService } from '@services/api.service';
-import { Observable } from 'rxjs';
-import { IAnimal } from 'src/app/model/animal.model';
+import { IEvent } from '@model/event.model';
 
 @Component({
   selector: 'app-list',
@@ -12,85 +11,87 @@ import { IAnimal } from 'src/app/model/animal.model';
 })
 export class ListComponent implements OnInit {
 
-  animals$: Observable<IAnimal[]>;
-  animals: IAnimal[];
+  events: IEvent[];
+  isLoading = true;
 
   constructor(private apiService: ApiService,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.loadAllAnimals();
-    this.animals$.subscribe((data) => {
-      this.animals = data;
-    }
-    );
+    this.apiService.loadEvents().subscribe({
+      next: (data) => { this.events = data; },
+      error: (err) => console.error("Error Occured: " + err),
+      complete: () => (this.isLoading = false)
+    })
   }
 
-  loadAllAnimals() {
-    this.animals$ = this.apiService.loadAnimals();
-  }
-
-  addEvent() {
-    const dialogRef = this.dialog.open(EditAnimalComponent,
+  addEvent(): void {
+    const dialogRef = this.dialog.open(EditEventComponent,
       {
         data: {
           title: 'Add new event'
         },
         width: '480px',
       });
-    dialogRef.afterClosed().subscribe((animal: IAnimal) => {
-      if (animal) {
-        const maxId = Math.max(...this.animals.map(o => o.eventId));
-        animal.eventId = maxId + 1;
-
-        this.apiService.addEvent(animal).subscribe(
-          (resp) => {
+    dialogRef.afterClosed().subscribe((event: IEvent) => {
+      if (event) {
+        this.isLoading = true;
+        const maxId = Math.max(...this.events.map(o => o.eventId));
+        event.eventId = maxId + 1;
+        this.apiService.addEvent(event).subscribe({
+          next: (resp) => {
             if (resp.status == 200) {
               const event = resp.body;
-              this.animals.unshift(event);
-              this.animals = this.animals.filter((f) => f.eventId != 0);
+              this.events.unshift(event);
+              this.events = this.events.filter((f) => f.eventId != 0);
             }
           },
-        );
+          error: (err) => console.error("Error Occured: " + err),
+          complete: () => (this.isLoading = false)
+        });
       }
     });
   }
 
-  editAnimal(event: IAnimal) {
-    const dialogRef = this.dialog.open(EditAnimalComponent,
+  editEvent(event: IEvent): void {
+    const dialogRef = this.dialog.open(EditEventComponent,
       {
         data: {
-          title: 'Edit this event',
+          title: `Edit event ${event.eventId}`,
           event: event
         },
         width: '480px',
       });
 
-    dialogRef.afterClosed().subscribe((animal: IAnimal) => {
-
-      this.apiService.updateEvent(animal).subscribe(
-        (resp) => {
+    dialogRef.afterClosed().subscribe((event: IEvent) => {
+      if (event) this.isLoading = true;
+      this.apiService.updateEvent(event).subscribe({
+        next: (resp) => {
           if (resp.status == 200) {
             const event = resp.body;
-            const index = this.animals.findIndex(e => e.eventId === event.eventId);
-            this.animals[index] = event;
-            this.animals = this.animals.filter((f) => f.eventId != 0);
+            const index = this.events.findIndex(e => e.eventId === event.eventId);
+            this.events[index] = event;
+            this.events = this.events.filter((f) => f.eventId != 0);
           }
         },
-      );
-
+        error: (err) => console.error("Error Occured: " + err),
+        complete: () => (this.isLoading = false)
+      });
     });
   }
 
-  removeAnimal(eventId: string) {
-    this.apiService.deleteAnimal(eventId).subscribe(
-      (resp) => {
+  removeEvent(eventId: string) {
+    this.isLoading = true;
+    this.apiService.deleteEvent(eventId).subscribe({
+      next: (resp) => {
         if (resp.status == 200) {
           const deletedEmpId = resp.body;
-          this.animals = this.animals.filter((f) => f.eventId != deletedEmpId);
+          this.events = this.events.filter((f) => f.eventId != deletedEmpId);
         }
       },
+      error: (err) => console.error("Error Occured: " + err),
+      complete: () => (this.isLoading = false)
+    }
     );
   }
-
 }
