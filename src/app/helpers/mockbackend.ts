@@ -41,17 +41,21 @@ export class MockBackendHttpInterceptor implements HttpInterceptor {
       });
       return next.handle(req).pipe(delay(500));
     }
+
     if (url.endsWith("/animals") && method === "POST") {
       const { body } = req.clone();
-      // assign a new uuid to new employee
-      body.id = uuidv4();
       return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
     }
+
+    if (url.endsWith("/animals") && method === "PATCH") {
+      const { body } = req.clone();
+      return of(new HttpResponse({ status: 200, body })).pipe(delay(500));
+    }
+
     if (url.match(/\/animals\/.*/) && method === "DELETE") {
 
       const urlValues = url.split("/");
-      const empId =  urlValues[urlValues.length - 1];
-      console.log(empId, 'empId');
+      const empId = urlValues[urlValues.length - 1];
 
       return of(new HttpResponse({ status: 200, body: empId })).pipe(
         delay(500)

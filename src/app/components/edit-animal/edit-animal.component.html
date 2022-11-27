@@ -1,7 +1,14 @@
 <h1 mat-dialog-title>{{data.title}}</h1>
-<div mat-dialog-content>
-  <p>{{data.animal | json}}</p>
 
+<div mat-dialog-content>
+  <form [formGroup]="eventForm" class="flex flex-wrap">
+    <div *ngFor="let field of fields; let first = first">
+      <label [for]="field">{{field}}: </label>
+      <mat-form-field>
+        <input matInput [placeholder]="field" [formControlName]="field">
+      </mat-form-field>
+    </div>
+  </form>
 </div>
 
 <div mat-dialog-actions class="flex justify-between">
@@ -11,6 +18,5 @@
           mat-dialog-close>Cancel</button>
   <button mat-raised-button
           color="primary"
-
-          (click)="onSave(data.animal)">Save</button>
+          (click)="onSave()">Save</button>
 </div>

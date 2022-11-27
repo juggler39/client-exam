@@ -23,9 +23,8 @@
       "@components/*": ["src/app/components/*"],
       "@enums/*": ["src/app/enums/*"],
       "@helpers/*": ["src/app/helpers/*"],
-      "@models/*": ["src/app/models/*"],
+      "@model/*": ["src/app/model/*"],
       "@services/*": ["src/app/services/*"],
-      "@store/*": ["src/app/store/*"]
     },
     "strictPropertyInitialization": false
   },

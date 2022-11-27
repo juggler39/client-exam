@@ -1,21 +1,30 @@
-.example-container {
+@import "variables";
+
+.table {
   width: 100%;
   max-width: 100%;
   overflow: auto;
   margin: auto;
 }
-
-table {
-  width: 800px;
+.mat-cell {
+  padding-inline: 3px;
+  text-align: center;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-td.mat-column-star {
-  width: 20px;
-  padding-right: 8px;
+.mat-header-cell {
+  color: $accent;
+  padding-inline: 3px;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-th.mat-column-position,
-td.mat-column-position {
+.mat-column-actions {
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.mat-column-position,
+.mat-column-position {
   padding-left: 8px;
 }
 
@@ -25,13 +34,4 @@ td.mat-column-position {
 
 .mat-mdc-table-sticky-border-elem-left {
   border-right: 1px solid #e0e0e0;
-}
-
-.spinner {
-  position: fixed;
-  margin: auto;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
 }

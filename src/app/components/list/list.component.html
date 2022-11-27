@@ -1,15 +1,16 @@
 <mat-card>
   <div class="flex justify-between items-center flex-wrap mb-4">
-    <mat-card-title color="secondary">List of animals</mat-card-title>
+    <mat-spinner *ngIf="!animals" class="spinner"></mat-spinner>
+    <mat-card-title>List of events</mat-card-title>
 
     <button mat-raised-button
             color="primary"
-            (click)="addAnimal()">Add Animal
+            (click)="addEvent()">Add event
     </button>
   </div>
 
-  <app-table [animals$]="animals$"
+  <app-table *ngIf="animals"
+             [animals]="animals"
              (onEdit)="editAnimal($event)"
-             (onRemove)="removeAnimal($event)"
-             ></app-table>
+             (onRemove)="removeAnimal($event)"></app-table>
 </mat-card>

@@ -1,9 +1,10 @@
-<section class="example-container mat-elevation-z8" tabindex="0">
-  <mat-spinner *ngIf="!(dataSource$ | async)" class="spinner"></mat-spinner>
-
-  <table mat-table [dataSource]="dataSource" *ngIf="(columns$ | async) as columns" matSort
+<section class="table mat-elevation-z8" tabindex="0">
+  <table #table
+         mat-table
+         [dataSource]="dataSource"
+         matSort
          (matSortChange)="sortData(dataSource)">
-    {{ columns }}
+
 
     <ng-container *ngFor="let column of columns.slice(0, columns.length-1); let i = index"
 
@@ -21,13 +22,13 @@
           <button mat-button (click)="onEdit.emit(element)">
             <mat-icon>edit</mat-icon>
           </button>
-          <app-delete-animal (result)="onRemove.emit(element.animalId)"></app-delete-animal>
+          <app-delete-animal (result)="onRemove.emit(element.eventId)"></app-delete-animal>
         </div>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="(columns$ | async); sticky: true"></tr>
-    <tr mat-row *matRowDef="let row; columns: (columns$ | async);"></tr>
+    <tr mat-header-row *matHeaderRowDef="columns sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
   </table>
 
 </section>

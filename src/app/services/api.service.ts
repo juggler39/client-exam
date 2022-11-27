@@ -19,22 +19,29 @@ export class ApiService {
     );
   }
 
-  /**
-   * Add a new employee post requts.
-   * @param employee a new employee to add.
-   */
-  addEmployee(employee: any): Observable<any> {
+
+  addEvent(event: any): Observable<any> {
+    return this.http.post<any>(this.ANIMAL_API, event, {
+      observe: "response",
+    })
+      .pipe(catchError(this.handleError));
+  }
+
+  updateEvent(event: any): Observable<any> {
+    return this.http.patch<any>(this.ANIMAL_API, event, {
+      observe: "response",
+    })
+      .pipe(catchError(this.handleError));
+  }
+
+  deleteAnimal(eventId: string) {
     return this.http
-      .post<any>(this.ANIMAL_API, employee, {
+      .delete<any>(`${this.ANIMAL_API}/${eventId}`, {
         observe: "response",
       })
       .pipe(catchError(this.handleError));
   }
 
-  deleteAnimal(animalId: string): Observable<IAnimal>  {
-    return this.http.delete<IAnimal>(`${this.ANIMAL_API}/${animalId}`)
-      .pipe(catchError(this.handleError));
-  }
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
